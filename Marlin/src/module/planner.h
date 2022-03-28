@@ -264,7 +264,7 @@ class Planner {
     #endif
     static bool is_user_set_lead;                        // M92 Specifies whether to use a user-defined value
     static planner_settings_t settings;
-    
+
     static laser_state_t laser_inline;
 
     static uint32_t max_acceleration_steps_per_s2[X_TO_EN]; // (steps/s^2) Derived from mm_per_s2
@@ -475,7 +475,7 @@ class Planner {
         }
       }
       FORCE_INLINE static void skew(float (&raw)[XYZ]) { skew(raw[X_AXIS], raw[Y_AXIS], raw[Z_AXIS]); }
-      FORCE_INLINE static void skew(float (&raw)[XYZE]) { skew(raw[X_AXIS], raw[Y_AXIS], raw[Z_AXIS]); }
+      FORCE_INLINE static void skew(float (&raw)[X_TO_E]) { skew(raw[X_AXIS], raw[Y_AXIS], raw[Z_AXIS]); }
 
       FORCE_INLINE static void unskew(float &cx, float &cy, const float &cz) {
         if (WITHIN(cx, X_MIN_POS, X_MAX_POS) && WITHIN(cy, Y_MIN_POS, Y_MAX_POS)) {
@@ -487,7 +487,7 @@ class Planner {
         }
       }
       FORCE_INLINE static void unskew(float (&raw)[XYZ]) { unskew(raw[X_AXIS], raw[Y_AXIS], raw[Z_AXIS]); }
-      FORCE_INLINE static void unskew(float (&raw)[XYZE]) { unskew(raw[X_AXIS], raw[Y_AXIS], raw[Z_AXIS]); }
+      FORCE_INLINE static void unskew(float (&raw)[X_TO_E]) { unskew(raw[X_AXIS], raw[Y_AXIS], raw[Z_AXIS]); }
 
     #endif // SKEW_CORRECTION
 
@@ -581,12 +581,12 @@ class Planner {
     FORCE_INLINE static block_t* get_next_free_block(uint8_t &next_buffer_head, const uint8_t count=1) {
 
       // Wait until there are enough slots free
-      while (moves_free() < count) 
+      while (moves_free() < count)
       {
         //if request quick stop
-        if(cleaning_buffer_counter) 
+        if(cleaning_buffer_counter)
           return NULL;
-        idle(); 
+        idle();
       }
 
       // Return the first available block
@@ -740,8 +740,8 @@ class Planner {
      * conversions are applied.
      */
     static void set_machine_position_mm(const float &x, const float &y, const float &z, const float &b, const float &e);
-    FORCE_INLINE static void set_machine_position_mm(const float (&target)[X_TO_E]) { 
-      set_machine_position_mm(target[X_AXIS], target[Y_AXIS], target[Z_AXIS], target[B_AXIS], target[E_AXIS]); 
+    FORCE_INLINE static void set_machine_position_mm(const float (&target)[X_TO_E]) {
+      set_machine_position_mm(target[X_AXIS], target[Y_AXIS], target[Z_AXIS], target[B_AXIS], target[E_AXIS]);
     }
 
     /**
