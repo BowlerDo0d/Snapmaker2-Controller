@@ -39,7 +39,7 @@
    * Marlin release version identifier
    * (Steve) Idea here is to keep their version and increment mine as the fourth
    */
-  #define SHORT_BUILD_VERSION "SM2-4.4.16.1"
+  #define SHORT_BUILD_VERSION "SM2-4.4.16.2"
 
   /**
    * Verbose version identifier which should contain a reference to the location
